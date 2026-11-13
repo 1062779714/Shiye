@@ -1,0 +1,255 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--figma-color-text, #243146);
+    background: var(--figma-color-bg, #ffffff);
+    font: 12px/1.5 "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .wrap { padding: 16px; }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .logo { width: 28px; height: 28px; flex: none; }
+  h1 { font-size: 14px; margin: 0; font-weight: 650; }
+  .subtitle { font-size: 11px; color: var(--figma-color-text-secondary, #7e8897); margin: 1px 0 0; }
+  .badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 600;
+  }
+  .badge.active {
+    background: #ecfdf5;
+    color: #059669;
+  }
+  .status-card {
+    border: 1px solid var(--figma-color-border, #e5e8ef);
+    border-radius: 8px;
+    padding: 12px;
+    background: var(--figma-color-bg-secondary, #f8f9fb);
+    margin-bottom: 14px;
+  }
+  .status-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .dot {
+    height: 8px;
+    width: 8px;
+    background: #9ca3af;
+    border-radius: 50%;
+  }
+  .dot.active {
+    background: #10b981;
+    box-shadow: 0 0 0 3px #10b98125;
+  }
+  #status {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--figma-color-text-secondary, #4b5563);
+    margin: 6px 0 0;
+    overflow-wrap: anywhere;
+  }
+  .field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .field label { font-weight: 500; font-size: 12px; }
+  .number { position: relative; width: 100px; }
+  input {
+    height: 30px;
+    width: 100%;
+    padding: 0 26px 0 8px;
+    border: 1px solid var(--figma-color-border, #d1d5db);
+    border-radius: 6px;
+    background: var(--figma-color-bg, #fff);
+    color: var(--figma-color-text, #111827);
+    outline: none;
+    font-size: 12px;
+  }
+  input:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px #3b82f620; }
+  .unit { position: absolute; right: 8px; top: 7px; color: #9ca3af; font-size: 11px; }
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  button {
+    height: 34px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .primary {
+    background: #2563eb;
+    color: white;
+  }
+  .primary:hover { background: #1d4ed8; }
+  .secondary {
+    background: var(--figma-color-bg-secondary, #f3f4f6);
+    border: 1px solid var(--figma-color-border, #e5e7eb);
+    color: var(--figma-color-text, #374151);
+  }
+  .secondary:hover { background: #e5e7eb; }
+  .danger {
+    background: #fff;
+    border: 1px solid #fecaca;
+    color: #dc2626;
+  }
+  .danger:hover { background: #fef2f2; }
+  .log-box {
+    margin-top: 14px;
+    padding: 8px 10px;
+    background: var(--figma-color-bg-secondary, #f9fafb);
+    border: 1px dashed var(--figma-color-border, #e5e7eb);
+    border-radius: 6px;
+    font-size: 11px;
+    color: #6b7280;
+    max-height: 80px;
+    overflow-y: auto;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <svg width="28" height="28" viewBox="0 0 512 512" fill="none">
+        <rect width="512" height="512" rx="108" fill="#1e1e1e"/>
+        <path d="M102 202V151C102 123 123 102 151 102H202" stroke="white" stroke-width="28" stroke-linecap="round"/>
+        <path d="M310 102H360C388 102 410 123 410 151V202" stroke="white" stroke-width="28" stroke-linecap="round"/>
+        <path d="M102 310V360C102 388 123 410 151 410H202" stroke="white" stroke-width="28" stroke-linecap="round"/>
+        <rect x="305" y="310" width="113" height="113" rx="24" fill="#3b82f6"/>
+      </svg>
+    </div>
+    <div>
+      <h1>拾页排列器</h1>
+      <p class="subtitle">自动吸附顶部 · 自动横向间隔</p>
+    </div>
+    <span id="badge" class="badge">未开启</span>
+  </header>
+
+  <div class="status-card">
+    <div class="status-heading">
+      <span id="dot" class="dot"></span>
+      <span id="stateTitle">准备就绪</span>
+    </div>
+    <div id="status">点击下方“开启自动排列”，随后在浏览器中点击捕获即可。</div>
+  </div>
+
+  <div class="field">
+    <label for="gap">画板横向间隔</label>
+    <div class="number">
+      <input id="gap" type="number" min="0" max="10000" step="50" value="500">
+      <span class="unit">px</span>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button id="startBtn" class="primary">开启自动排列</button>
+    <button id="stopBtn" class="secondary" style="display:none;">暂停自动排列</button>
+    <button id="resetBtn" class="danger">重置位置（从 X=0 开始）</button>
+  </div>
+
+  <div class="log-box" id="logBox">
+    等待粘贴新画板...
+  </div>
+</div>
+
+<script>
+  function send(command, payload = {}) {
+    parent.postMessage({ pluginMessage: { type: 'PAGEPICK_REQUEST', command, ...payload } }, '*');
+  }
+
+  const startBtn = document.getElementById('startBtn');
+  const stopBtn = document.getElementById('stopBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const badge = document.getElementById('badge');
+  const dot = document.getElementById('dot');
+  const stateTitle = document.getElementById('stateTitle');
+  const statusEl = document.getElementById('status');
+  const logBox = document.getElementById('logBox');
+  const gapInput = document.getElementById('gap');
+
+  function updateRunning(isRunning) {
+    if (isRunning) {
+      badge.textContent = '运行中';
+      badge.classList.add('active');
+      dot.classList.add('active');
+      stateTitle.textContent = '自动捕获已激活';
+      startBtn.style.display = 'none';
+      stopBtn.style.display = 'block';
+    } else {
+      badge.textContent = '已暂停';
+      badge.classList.remove('active');
+      dot.classList.remove('active');
+      stateTitle.textContent = '已暂停';
+      startBtn.style.display = 'block';
+      stopBtn.style.display = 'none';
+    }
+  }
+
+  startBtn.onclick = () => {
+    const gap = parseInt(gapInput.value, 10) || 500;
+    send('START', { gap });
+    updateRunning(true);
+  };
+
+  stopBtn.onclick = () => {
+    send('STOP');
+    updateRunning(false);
+  };
+
+  resetBtn.onclick = () => {
+    send('RESET');
+    updateRunning(false);
+    logBox.innerHTML = '已重置序列，下一次导入将放置在 (X=0, Y=0)';
+  };
+
+  window.addEventListener('message', (event) => {
+    const msg = event.data?.pluginMessage;
+    if (!msg) return;
+
+    if (msg.type === 'STATUS') {
+      statusEl.textContent = msg.text;
+    }
+
+    if (msg.type === 'ARRANGED') {
+      const item = document.createElement('div');
+      item.textContent = `[第${msg.count}张] 成功排列: X=${msg.x}, Y=${msg.y}, 宽=${msg.width}px`;
+      logBox.prepend(item);
+    }
+
+    if (msg.type === 'PAGEPICK_RESPONSE' && msg.result) {
+      if (msg.result.running !== undefined) {
+        updateRunning(msg.result.running);
+      }
+    }
+  });
+
+  // 默认启动时发送 PING 查状态
+  send('PING');
+</script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>拾页 · PagePick</title><link rel="stylesheet" href="popup.css"></head>
+<body><header><div class="brand"><img src="brand.svg" width="24" height="24" alt=""></div><div><h1>拾页 <span style="font-size:11px;font-weight:400;color:#98a0ad;margin-left:4px">PagePick</span></h1><p>捕获网页，收进你的设计文件</p></div><button id="settingsToggle" class="icon" title="工具与诊断" aria-expanded="false">⚙</button></header>
+<main>
+<div class="field" style="display:flex;align-items:center;justify-content:space-between;padding:4px 0 10px;border-bottom:1px solid #ffffff14;margin-bottom:12px;">
+  <div>
+    <label for="floatingIconToggle" style="margin:0;font-weight:600;font-size:13px;cursor:pointer;">网页常驻悬浮图标</label>
+    <p class="hint" style="margin:2px 0 0;font-size:11px;">关闭后网页中不显示图标与清单，可按快捷键捕获</p>
+  </div>
+  <input id="floatingIconToggle" type="checkbox" checked style="width:18px;height:18px;cursor:pointer;accent-color:#347BFF;">
+</div>
+<div class="field"><label>导入到</label><div class="segments" role="group" aria-label="Figma 目标"><button id="webMode" type="button" aria-pressed="false">Figma 网页端</button><button id="desktopMode" type="button" aria-pressed="true">Figma 客户端</button></div><select id="mode" hidden><option value="desktop">客户端</option><option value="web">网页端</option></select></div>
+<div class="field" id="webTarget" hidden><label for="tabs">目标设计文件 <button id="refreshTabs" class="text" type="button">刷新列表</button></label><select id="tabs"></select></div>
+<div class="field"><label for="pasteMethod">粘贴方式</label><select id="pasteMethod"><option value="native">本地助手 · 自动粘贴</option><option value="manual">仅复制 · 手动粘贴</option></select><div class="connection"><span id="connectionDot" class="dot"></span><span id="helperStatus">本地助手尚未检测</span><button id="checkHelper" class="text">检测连接</button></div></div>
+<div class="field"><label for="placementEngine">自动排列</label><select id="placementEngine"><option value="native">本地助手自动排列（无需启动插件）</option><option value="plugin">Figma 排列器插件（高级）</option><option value="off">不排列，只粘贴</option></select><div class="connection"><span id="arrangerStatus">已就绪</span><button id="checkArranger" class="text">检测插件</button></div></div>
+<div class="field size-section">
+  <div class="section-title">
+    <span class="indicator"></span>
+    <span class="title-text">窗口尺寸 / 捕获宽度</span>
+  </div>
+  <div class="size-presets">
+    <button type="button" class="preset-btn" data-w="1920" data-h="1080">1920 × 1080</button>
+    <button type="button" class="preset-btn" data-w="1440" data-h="900">1440 × 900</button>
+    <button type="button" class="preset-btn" data-w="1366" data-h="768">1366 × 768</button>
+    <button type="button" class="preset-btn" data-w="1280" data-h="720">1280 × 720</button>
+    <button type="button" class="preset-btn" data-w="0" data-h="0">当前尺寸</button>
+  </div>
+  <details class="custom-size-toggle" id="customSizeDetails">
+    <summary>自定义尺寸</summary>
+    <div class="custom-size-row">
+      <div class="size-input-group">
+        <label>宽度</label>
+        <div class="unit"><input id="customW" type="number" min="320" max="7680" placeholder="宽度"><span>px</span></div>
+      </div>
+      <span class="size-multiply">×</span>
+      <div class="size-input-group">
+        <label>高度</label>
+        <div class="unit"><input id="customH" type="number" min="200" max="4320" placeholder="高度"><span>px</span></div>
+      </div>
+      <button type="button" id="applyCustomSize" class="btn-apply-size">应用</button>
+    </div>
+    <div class="size-tools">
+      <button type="button" id="btnGetCurrentSize" class="text">获取当前尺寸</button>
+      <span id="currentSizeHint" class="hint"></span>
+    </div>
+  </details>
+</div>
+<div class="field"><label for="gap">画板间隔</label><div class="unit"><input id="gap" type="number" min="0" max="10000" step="50" value="500"><span>px</span></div></div>
+<p class="hint">第一张从 (0, 0) 开始，后续顶部对齐并向右排列。</p><button id="resetPlacement" class="text" style="margin-bottom:14px">下次重新从原点排列</button><section id="tools" hidden><div class="toolhead">工具与诊断<button id="reloadExtension" class="text">应用扩展更新</button></div><details><summary>查看最近运行记录</summary><pre id="diagnostics"></pre></details></section>
+<p id="status" role="status" aria-live="polite"></p><div class="actions"><button id="cancel" class="secondary">关闭</button><button id="save" class="primary">保存设置</button></div></main>
+<footer>设置保存在本机。回到网页，点击右下角导入图标开始捕获。</footer><script src="popup.js"></script></body></html>

@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    color: var(--figma-color-text, #243146);
+    background: var(--figma-color-bg, #ffffff);
+    font: 12px/1.5 "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  }
+  .wrap { padding: 16px; }
+  header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .logo { width: 28px; height: 28px; flex: none; }
+  h1 { font-size: 14px; margin: 0; font-weight: 650; }
+  .subtitle { font-size: 11px; color: var(--figma-color-text-secondary, #7e8897); margin: 1px 0 0; }
+  .badge {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+    background: #ecfdf5;
+    color: #059669;
+    font-weight: 600;
+  }
+  .status-card {
+    border: 1px solid var(--figma-color-border, #e5e8ef);
+    border-radius: 8px;
+    padding: 12px;
+    background: var(--figma-color-bg-secondary, #f8f9fb);
+    margin-bottom: 14px;
+  }
+  .status-heading {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+  .dot {
+    height: 8px;
+    width: 8px;
+    background: #10b981;
+    box-shadow: 0 0 0 3px #10b98125;
+    border-radius: 50%;
+  }
+  #status {
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--figma-color-text-secondary, #4b5563);
+    margin: 6px 0 0;
+    overflow-wrap: anywhere;
+  }
+  .pill-row {
+    margin-top: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .coord-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 8px;
+    background: rgba(59, 130, 246, 0.08);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 4px;
+    font-size: 11px;
+    color: #2563eb;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 600;
+  }
+  .bounds-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: 4px;
+    font-size: 11px;
+    color: #059669;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    font-weight: 600;
+  }
+  .field {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+  }
+  .field label { font-weight: 500; font-size: 12px; }
+  .number { position: relative; width: 100px; }
+  input {
+    height: 30px;
+    width: 100%;
+    padding: 0 26px 0 8px;
+    border: 1px solid var(--figma-color-border, #d1d5db);
+    border-radius: 6px;
+    background: var(--figma-color-bg, #fff);
+    color: var(--figma-color-text, #111827);
+    outline: none;
+    font-size: 12px;
+  }
+  input:focus { border-color: #3b82f6; box-shadow: 0 0 0 2px #3b82f620; }
+  .unit { position: absolute; right: 8px; top: 7px; color: #9ca3af; font-size: 11px; }
+  .btn-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 10px;
+  }
+  button {
+    height: 36px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+  }
+  .btn-new-row {
+    background: #2563eb;
+    color: white;
+  }
+  .btn-new-row:hover { background: #1d4ed8; }
+  .btn-new-row:active { transform: translateY(1px); }
+  .btn-reset {
+    background: var(--figma-color-bg-secondary, #f8f9fb);
+    border: 1px solid #fecaca;
+    color: #dc2626;
+  }
+  .btn-reset:hover {
+    background: #fef2f2;
+    border-color: #f87171;
+  }
+  .tip-text {
+    font-size: 11px;
+    color: var(--figma-color-text-secondary, #6b7280);
+    margin-top: 4px;
+    line-height: 1.4;
+  }
+  .log-box {
+    margin-top: 14px;
+    padding: 8px 10px;
+    background: var(--figma-color-bg-secondary, #f9fafb);
+    border: 1px dashed var(--figma-color-border, #e5e7eb);
+    border-radius: 6px;
+    font-size: 11px;
+    color: #6b7280;
+    max-height: 80px;
+    overflow-y: auto;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="logo">
+      <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 512 512" fill="none" style="display:block;border-radius:6px;box-shadow:0 2px 6px rgba(0,0,0,0.25);">
+        <defs>
+          <linearGradient id="base" x1="35" y1="20" x2="480" y2="512" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#292B2D"/>
+            <stop offset="1" stop-color="#191B1C"/>
+          </linearGradient>
+          <linearGradient id="accent" x1="335" y1="335" x2="404" y2="404" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#347BFF"/>
+            <stop offset="1" stop-color="#2460EB"/>
+          </linearGradient>
+        </defs>
+        <rect width="512" height="512" rx="108" fill="url(#base)"/>
+        <g stroke="#FFFFFF" stroke-width="28" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M128 211V169C128 146 146 128 169 128H211"/>
+          <path d="M301 128H343C366 128 384 146 384 169V211"/>
+          <path d="M128 301V343C128 366 146 384 169 384H211"/>
+        </g>
+        <rect x="335" y="335" width="64" height="64" rx="12" fill="url(#accent)"/>
+      </svg>
+    </div>
+    <div>
+      <h1>拾页排列器</h1>
+      <p class="subtitle">自动吸附顶部 · 自动横向间隔</p>
+    </div>
+    <span class="badge">运行中</span>
+  </header>
+
+  <div class="status-card">
+    <div class="status-heading">
+      <span class="dot"></span>
+      <span>自动排列监听中</span>
+    </div>
+    <div id="status">画布为空时自动从 (0,0) 开始。</div>
+    <div class="pill-row">
+      <div class="coord-pill" id="coordPill">下一张起始: X=0, Y=0</div>
+      <div class="bounds-pill" id="boundsPill" style="display:none;">画布高度: 0px</div>
+    </div>
+  </div>
+
+  <div class="field">
+    <label for="gap">画板横向/纵向间隔</label>
+    <div class="number">
+      <input id="gap" type="number" min="0" max="10000" step="50" value="500">
+      <span class="unit">px</span>
+    </div>
+  </div>
+
+  <div class="btn-group">
+    <button id="btnNewRow" class="btn-new-row" title="计算已有画板总高度，在其下方 500px 处新开一行">
+      ↵ 换行排列（新启一行）
+    </button>
+    <div class="tip-text">💡 自动检测当前已有内容总高度并 +500px，从 X=0 开启下一行。</div>
+
+    <button id="btnReset" class="btn-reset" style="margin-top: 6px;">
+      ↺ 重置为首张 (从 X=0, Y=0 开始)
+    </button>
+  </div>
+
+  <div class="log-box" id="logBox">
+    等待粘贴新画板...
+  </div>
+</div>
+
+<script>
+  function send(command, payload = {}) {
+    parent.postMessage({ pluginMessage: { type: 'PAGEPICK_REQUEST', command, ...payload } }, '*');
+  }
+
+  const btnNewRow = document.getElementById('btnNewRow');
+  const btnReset = document.getElementById('btnReset');
+  const statusEl = document.getElementById('status');
+  const coordPill = document.getElementById('coordPill');
+  const boundsPill = document.getElementById('boundsPill');
+  const logBox = document.getElementById('logBox');
+  const gapInput = document.getElementById('gap');
+
+  function updateCoordDisplay(nextX = 0, currentY = 0, hasContent = false, maxBottom = 0) {
+    coordPill.textContent = `下一张起始: X=${nextX}, Y=${currentY}`;
+    if (hasContent && maxBottom > 0) {
+      boundsPill.style.display = 'inline-flex';
+      boundsPill.textContent = `已有内容底边: Y=${maxBottom}`;
+    } else {
+      boundsPill.style.display = 'none';
+    }
+  }
+
+  // 换行排列按钮
+  btnNewRow.onclick = () => {
+    send('NEW_ROW');
+  };
+
+  // 重置按钮
+  btnReset.onclick = () => {
+    send('RESET');
+  };
+
+  // 间隔修改
+  gapInput.onchange = () => {
+    const val = parseInt(gapInput.value, 10);
+    const gap = (Number.isFinite(val) && val >= 0) ? val : 500;
+    send('SET_GAP', { gap });
+  };
+
+  window.addEventListener('message', (event) => {
+    const msg = event.data?.pluginMessage;
+    if (!msg) return;
+
+    if (msg.type === 'STATUS') {
+      statusEl.textContent = msg.text;
+    }
+
+    if (msg.type === 'ARRANGED_INFO') {
+      updateCoordDisplay(msg.nextX || 0, msg.currentY || 0, msg.hasContent, msg.maxBottom);
+      if (msg.text) statusEl.textContent = msg.text;
+    }
+
+    if (msg.type === 'ARRANGED') {
+      updateCoordDisplay(msg.nextX || 0, msg.currentY || 0, msg.hasContent, msg.maxBottom);
+      const item = document.createElement('div');
+      item.textContent = `[第${msg.count}张] 成功排列: X=${msg.x}, Y=${msg.y}, 宽=${msg.width}px`;
+      logBox.prepend(item);
+    }
+
+    if (msg.type === 'PAGEPICK_RESPONSE' && msg.result) {
+      if (Number.isFinite(msg.result.nextX) && Number.isFinite(msg.result.currentY)) {
+        updateCoordDisplay(msg.result.nextX, msg.result.currentY, msg.result.hasContent, msg.result.maxBottom);
+      }
+      if (msg.result.gap !== undefined) {
+        gapInput.value = msg.result.gap;
+      }
+    }
+  });
+
+  // 启动即查询状态
+  send('PING');
+</script>
+</body>
+</html>

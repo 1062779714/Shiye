@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" fill="none">
+<defs>
+<linearGradient id="bg" x1="35" y1="20" x2="480" y2="512" gradientUnits="userSpaceOnUse"><stop stop-color="#292B2D"/><stop offset="1" stop-color="#191B1C"/></linearGradient>
+<linearGradient id="fur" x1="350" y1="294" x2="380" y2="462" gradientUnits="userSpaceOnUse"><stop stop-color="#F1BB65"/><stop offset="1" stop-color="#E6A74D"/></linearGradient>
+<linearGradient id="cream" x1="363" y1="365" x2="363" y2="485" gradientUnits="userSpaceOnUse"><stop stop-color="#FFF2D4"/><stop offset="1" stop-color="#F9E6BF"/></linearGradient>
+</defs>
+<g id="Base"><rect width="512" height="512" rx="108" fill="url(#bg)"/></g>
+<g id="Capture frame" stroke="#FFFFFF" stroke-width="38" stroke-linecap="round" stroke-linejoin="round">
+<path id="Top left" d="M80 194V126C80 100 100 80 126 80H194"/>
+<path id="Top right" d="M318 80H386C412 80 432 100 432 126V194"/>
+<path id="Bottom left" d="M80 318V386C80 412 100 432 126 432H194"/>
+</g>
+<g id="Hamster">
+<g id="Ears">
+<ellipse id="Left ear" cx="305" cy="306" rx="31" ry="36" transform="rotate(-26 305 306)" fill="#F3BB7B"/>
+<ellipse id="Left inner ear" cx="307" cy="308" rx="18" ry="22" transform="rotate(-26 307 308)" fill="#E99D80"/>
+<ellipse id="Right ear" cx="450" cy="307" rx="31" ry="36" transform="rotate(28 450 307)" fill="#F3BB7B"/>
+<ellipse id="Right inner ear" cx="447" cy="309" rx="18" ry="22" transform="rotate(28 447 309)" fill="#E99D80"/>
+</g>
+<path id="Golden head" d="M258 400C258 346 303 302 374 302C442 302 485 346 485 402L480 455C477 479 451 486 374 486C302 486 270 478 264 455Z" fill="url(#fur)"/>
+<path id="Cream belly" d="M270 414C293 397 335 408 373 413C411 407 455 398 479 416L477 453C476 478 454 486 374 486C301 486 274 478 270 458Z" fill="url(#cream)"/>
+<ellipse id="Left chubby cheek" cx="300" cy="414" rx="60" ry="51" fill="url(#cream)"/>
+<ellipse id="Right chubby cheek" cx="437" cy="419" rx="59" ry="58" fill="url(#cream)"/>
+<ellipse id="Left eye" cx="321" cy="372" rx="10" ry="12" fill="#222421"/>
+<ellipse id="Right eye" cx="407" cy="376" rx="10" ry="12" fill="#222421"/>
+<path id="Nose" d="M353 381C353 373 379 373 379 382C379 388 369 395 366 395C361 395 353 387 353 381Z" fill="#EF8B70"/>
+<g id="Figma symbol">
+<path id="Figma red" d="M365 405H351A14 14 0 0 0 351 433H365Z" fill="#F24E1E"/>
+<path id="Figma coral" d="M365 405H379A14 14 0 0 1 379 433H365Z" fill="#FF7262"/>
+<path id="Figma purple" d="M365 433H351A14 14 0 0 0 351 461H365Z" fill="#A259FF"/>
+<circle id="Figma blue" cx="379" cy="447" r="14" fill="#1ABCFE"/>
+<path id="Figma green" d="M365 461H351A14 14 0 1 0 365 475Z" fill="#0ACF83"/>
+</g>
+<ellipse id="Left oval paw" cx="334" cy="472" rx="22" ry="21" transform="rotate(-18 334 472)" fill="#FFBC99"/>
+<ellipse id="Right oval paw" cx="397" cy="472" rx="22" ry="21" transform="rotate(18 397 472)" fill="#FFBC99"/>
+</g></svg>

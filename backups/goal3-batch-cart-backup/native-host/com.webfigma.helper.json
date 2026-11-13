@@ -1,0 +1,9 @@
+{
+    "path":  "C:\\Downloads\\AI相关\\浏览器插件web-figma\\native-host\\bin\\Release\\net10.0-windows\\publish\\WebFigmaHelper.exe",
+    "description":  "Web Figma local paste helper",
+    "name":  "com.webfigma.helper",
+    "allowed_origins":  [
+                            "chrome-extension://kibgoidckblnppejfjpjmiobcodkiajo/"
+                        ],
+    "type":  "stdio"
+}

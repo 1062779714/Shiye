@@ -1,0 +1,21 @@
+# Competitor reference & Research archives
+竞品/
+research/
+scratch/
+
+# Visual Studio & Build artifacts
+.vs/
+*.user
+*.suo
+bin/Debug/
+obj/
+
+# Temporary / Scratch scripts
+fix_clean_final.js
+patch_mem2.js
+patch*.js
+
+# OS & Logs
+Thumbs.db
+Desktop.ini
+*.log
