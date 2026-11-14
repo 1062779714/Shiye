@@ -1,5 +1,5 @@
 {
-    "path":  "C:\\Downloads\\AI相关\\浏览器插件web-figma\\native-host\\bin\\Release\\standalone-publish\\WebFigmaHelper.exe",
+    "path":  "C:\\Downloads\\AI相关\\浏览器插件web-figma\\native-host\\publish\\WebFigmaHelper.exe",
     "description":  "Web Figma local paste helper",
     "name":  "com.webfigma.helper",
     "allowed_origins":  [

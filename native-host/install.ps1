@@ -2,7 +2,7 @@
 $ErrorActionPreference = 'Stop'
 
 Write-Host "========================================================" -ForegroundColor Cyan
-Write-Host "  拾页 · PagePick 本地助手注册程序 (v0.4.1)" -ForegroundColor Cyan
+Write-Host "  拾页 · PagePick 本地助手注册程序 (v0.4.2)" -ForegroundColor Cyan
 Write-Host "========================================================" -ForegroundColor Cyan
 
 # 1. 自动寻找 WebFigmaHelper.exe
@@ -75,11 +75,9 @@ foreach ($browser in $browserList) {
     Set-Item -Path $keyPath -Value $manifestPath
     $registeredCount++
   } catch {
-    # 忽略无权或不存在的分支
   }
 }
 
-# 4. 现场自检验证
 Write-Host ""
 Write-Host "✅ 拾页本地助手已成功注册到系统！" -ForegroundColor Green
 Write-Host "  - 核心执行程序: $helperPath" -ForegroundColor Gray
@@ -91,4 +89,4 @@ foreach ($orig in $origins) {
 }
 
 Write-Host ""
-Write-Host "✨ 校验通过！浏览器即可识别并调用本地助手。" -ForegroundColor Green
+Write-Host "✨ 校验通过！现在可以在浏览器和 Figma 中直接使用了。" -ForegroundColor Green
