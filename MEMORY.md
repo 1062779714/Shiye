@@ -58,6 +58,7 @@
 - 用户主要在 Aside 浏览器中操作。配置支持 Figma 网页端和客户端、本地助手自动粘贴和仅复制手动粘贴。默认模式为 Figma 客户端（Desktop 模式），无需绑定固定网页端标签页，只要打开 Figma 客户端中的任意文件即可直接运行。
 - **重新安装后默认 Figma 客户端模式（已修复）**：彻底修复扩展在重新安装或重置时因未读取到已存配置导致的“请先点击浏览器工具栏中的扩展图标，绑定目标 Figma 文件”阻断报错。在安装及启动生命周期（`onInstalled` / `onStartup`）中全自动注入默认配置（`mode: 'desktop'`, `pasteMethod: 'native'`），并在执行拦截时限定仅在显式选为网页端（`mode === 'web'`）时才校验标签页，保证新装即用。
 - **系统剪贴板写入兼容性加固（已修复）**：修复在特定环境或窗口未激活时出现的“生成 Figma 图层与剪贴板数据失败：Cannot read properties of undefined (reading 'write')”报错。底层增加 `navigator?.clipboard?.write` 存在性守护与 `document.execCommand('copy')`（`Hr` 备份通道）兜底，捕获前自动确保主窗口前台激活，剪贴板写入百分百可靠。
+- **GitHub 源码与 Releases 安装包发布（已完成）**：代码已完整推送到 https://github.com/1062779714/Shiye，并在 https://github.com/1062779714/Shiye/releases/tag/v0.4.0 正式发布打包好的三端开箱即用安装文件（全套三端整合包、浏览器扩展包、Figma 插件包、Windows 本地助手安装包）。
 - **目标① Figma 排列器 v3.0 升级（空画布自适应归零 + 一键换行新启一行）**：
   - 架构确定为：浏览器扩展捕获 → 本地助手激活窗口并发送 Ctrl+V → Figma 插件内部基于 `selectionchange` 选区监听（新粘贴物 100% 自动被选中）毫秒级捕获新粘贴画板，配合 `documentchange` 与轻量轮询三重兜底，直接调用原生节点 API 精准瞬移。
   - **空画布自适应检测（已落地）**：插件自动检查当前 Page 顶层画板数量；若为空画布（或用户切换到空白 Page、或全选 Delete 删空内容），自动重置为 `(X=0, Y=0)` 开始，无需用户手动点重置；
