@@ -458,8 +458,19 @@ async function run(source) {
     stage='切换并粘贴到 Figma';
     await status(source.id,'粘贴中…');
     if (mode === 'desktop') {
-      const result = await chrome.runtime.sendNativeMessage('com.webfigma.helper',{action:'paste',title:config.clientTitle || ''});
-      if (!result.ok) throw Error(result.error || '客户端粘贴失败');
+      let result;
+      try {
+        result = await chrome.runtime.sendNativeMessage('com.webfigma.helper',{action:'paste',title:config.clientTitle || ''});
+      } catch (nativeErr) {
+        result = { ok: false, error: nativeErr.message };
+      }
+      if (!result || !result.ok) {
+        const err = result?.error || '客户端粘贴失败';
+        if (/forbidden/i.test(err)) {
+          throw Error(`扩展 ID [${chrome.runtime.id}] 未获本地助手授权，请运行助手目录下的『一键安装并注册.cmd』`);
+        }
+        throw Error(err);
+      }
     } else {
       // Keep the confirmed capture/paste path independent of experimental placement.
       const placement=await pasteWeb(config.targetTabId);
@@ -849,11 +860,22 @@ async function captureCurrentState(source) {
     await status(source.id, '正在粘贴到 Figma…');
     const mode = config.mode || 'desktop';
     if (mode === 'desktop') {
-      const pasteRes = await chrome.runtime.sendNativeMessage('com.webfigma.helper', {
-        action: 'paste',
-        title: config.clientTitle || ''
-      });
-      if (!pasteRes.ok) throw Error(pasteRes.error || '客户端粘贴失败');
+      let pasteRes;
+      try {
+        pasteRes = await chrome.runtime.sendNativeMessage('com.webfigma.helper', {
+          action: 'paste',
+          title: config.clientTitle || ''
+        });
+      } catch (nativeErr) {
+        pasteRes = { ok: false, error: nativeErr.message };
+      }
+      if (!pasteRes || !pasteRes.ok) {
+        const err = pasteRes?.error || '客户端粘贴失败';
+        if (/forbidden/i.test(err)) {
+          throw Error(`扩展 ID [${chrome.runtime.id}] 未获本地助手授权，请运行助手目录下的『一键安装并注册.cmd』`);
+        }
+        throw Error(err);
+      }
     } else {
       await pasteWeb(config.targetTabId);
     }

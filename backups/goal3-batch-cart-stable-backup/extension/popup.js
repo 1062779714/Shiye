@@ -7,7 +7,11 @@ async function init(){
     $('checkHelper').disabled=true;
     let result;try{result=await chrome.runtime.sendMessage({type:'CHECK_HELPER'});}catch(error){result={ok:false,error:error.message};}finally{$('checkHelper').disabled=false;}
     $('connectionDot').className='dot '+(result?.ok?'ok':'fail');
-    document.getElementById('helperStatus').textContent=result?.ok?'已连接本地助手 '+result.version:'未连接：'+(result?.error || '未知错误');
+    let errMsg = result?.error || '未知错误';
+    if (/forbidden/i.test(errMsg)) {
+      errMsg = `扩展 ID [${chrome.runtime.id}] 未被本地助手授权，请运行助手目录下的『一键安装并注册.cmd』`;
+    }
+    document.getElementById('helperStatus').textContent=result?.ok?'已连接本地助手 '+result.version:'未连接：'+errMsg;
   };
 
   document.getElementById('reloadExtension').onclick=()=>chrome.runtime.reload();

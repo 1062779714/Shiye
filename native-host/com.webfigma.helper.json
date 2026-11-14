@@ -3,6 +3,7 @@
     "description":  "Web Figma local paste helper",
     "name":  "com.webfigma.helper",
     "allowed_origins":  [
+                            "chrome-extension://icenlgengacpdghfhoamfodcagohilfl/",
                             "chrome-extension://kibgoidckblnppejfjpjmiobcodkiajo/"
                         ],
     "type":  "stdio"
